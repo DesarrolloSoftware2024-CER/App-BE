@@ -1,0 +1,10 @@
+﻿{
+  "applications": {
+    "Watchly.HttpApi.Host": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44338",
+      "path": "../../../src/Watchly.HttpApi.Host/Watchly.HttpApi.Host.csproj",
+      "kubernetesService": ".*-httpapihost$"  
+    }
+  }
+}

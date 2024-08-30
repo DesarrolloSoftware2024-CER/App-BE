@@ -1,0 +1,85 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.Account": {
+      "version": "8.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "8.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "8.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "8.2.2",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "Watchly.Application": {
+      "path": "src/Watchly.Application/Watchly.Application.abppkg",
+      "folder": "src"
+    },
+    "Watchly.Application.Tests": {
+      "path": "test/Watchly.Application.Tests/Watchly.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "Watchly.Domain.Shared": {
+      "path": "src/Watchly.Domain.Shared/Watchly.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "Watchly.Application.Contracts": {
+      "path": "src/Watchly.Application.Contracts/Watchly.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "Watchly.HttpApi": {
+      "path": "src/Watchly.HttpApi/Watchly.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "Watchly.HttpApi.Client": {
+      "path": "src/Watchly.HttpApi.Client/Watchly.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "Watchly.EntityFrameworkCore.Tests": {
+      "path": "test/Watchly.EntityFrameworkCore.Tests/Watchly.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "Watchly.EntityFrameworkCore": {
+      "path": "src/Watchly.EntityFrameworkCore/Watchly.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "Watchly.TestBase": {
+      "path": "test/Watchly.TestBase/Watchly.TestBase.abppkg",
+      "folder": "test"
+    },
+    "Watchly.Domain.Tests": {
+      "path": "test/Watchly.Domain.Tests/Watchly.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "Watchly.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Watchly.HttpApi.Client.ConsoleTestApp/Watchly.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "Watchly.DbMigrator": {
+      "path": "src/Watchly.DbMigrator/Watchly.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "Watchly.HttpApi.Host": {
+      "path": "src/Watchly.HttpApi.Host/Watchly.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "Watchly.Domain": {
+      "path": "src/Watchly.Domain/Watchly.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
