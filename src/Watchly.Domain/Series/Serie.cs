@@ -7,7 +7,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace Whatchly.Series
 {
-    public class Serie : AggregateRoot<int>
+    public class Serie : AggregateRoot<int> //Clave de la serie ID de tipo entero 
     {
         public string Title { get; set; }
         public string Genero { get; set; }
