@@ -10,6 +10,12 @@ namespace Whatchly.Series
     public class Serie : AggregateRoot<int>
     {
         public string Title { get; set; }
-
+        public string Genero { get; set; }
+        public string Equipo { get; set; }
+        public string Duracion { get; set; }
+        public  DateOnly FechaLanzamiento { get; set; }
+        public string FotoPortada { get; set; }
+        public string PaisOrigen { get; set; }
+        public string Calificacion { get; set; }
     }
 }
