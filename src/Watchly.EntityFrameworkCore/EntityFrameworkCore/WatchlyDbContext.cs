@@ -14,19 +14,22 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Whatchly.Series;
 
 namespace Watchly.EntityFrameworkCore;
 
 [ReplaceDbContext(typeof(IIdentityDbContext))]
 [ReplaceDbContext(typeof(ITenantManagementDbContext))]
 [ConnectionStringName("Default")]
+
+//DbContext es como abstraccion de la base de datos- Vincula con BD
 public class WatchlyDbContext :
     AbpDbContext<WatchlyDbContext>,
     ITenantManagementDbContext,
     IIdentityDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
-
+    public DbSet<Serie> Series { get; set; }
 
     #region Entities from the modules
 
@@ -63,11 +66,26 @@ public class WatchlyDbContext :
 
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder builder) //Este metodo se ejecuta cuando se inicia la aplicacion
     {
         base.OnModelCreating(builder);
 
         /* Include modules to your migration db context */
+        builder.Entity<Serie>(b =>
+        {
+            b.ToTable(WatchlyConsts.DbTablePrefix + "Series",
+              WatchlyConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property(x => x.Title).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Genero).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Equipo).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Duracion).IsRequired().HasMaxLength(128);
+            b.Property(x => x.FechaLanzamiento).IsRequired().HasMaxLength(128);
+            b.Property(x => x.FotoPortada).IsRequired().HasMaxLength(128); 
+            b.Property(x => x.PaisOrigen).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Calificacion).IsRequired().HasMaxLength(128);
+
+        });
 
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();

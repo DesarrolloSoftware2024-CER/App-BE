@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using Watchly.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Watchly.EntityFrameworkCore;
 namespace Watchly.Migrations
 {
     [DbContext(typeof(WatchlyDbContext))]
-    partial class WatchlyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240911230734_add-serie-entity")]
+    partial class addserieentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
