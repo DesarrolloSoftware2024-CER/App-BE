@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Watchly.Application.Contracts\Watchly.Application.Contracts.csproj" />
     <ProjectReference Include="..\Watchly.Domain.Shared\Watchly.Domain.Shared.csproj" />
   </ItemGroup>
 
