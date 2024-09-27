@@ -11,11 +11,12 @@ namespace Whatchly.Series
     {
         public string Title { get; set; }
         public string Gender { get; set; }
-        public string Team { get; set; }
+        public string Actors { get; set; }
+        public string Director { get; set; }
         public string Duration { get; set; }
         public  DateTime ReleaseDate { get; set; }
-        public string Photo { get; set; }
+        public string Poster { get; set; }
         public string Country { get; set; }
-        public string Rating { get; set; }
+        public string Ratings { get; set; }
     }
 }
