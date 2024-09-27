@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Watchly.Application.Contracts\Watchly.Application.Contracts.csproj" />
     <ProjectReference Include="..\Watchly.Domain.Shared\Watchly.Domain.Shared.csproj" />
   </ItemGroup>
 
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Volo.Abp.OpenIddict.Domain" Version="8.2.2" />
     <PackageReference Include="Volo.Abp.Identity.Domain" Version="8.2.2" />
     <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="8.2.2" />
