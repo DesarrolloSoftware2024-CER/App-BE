@@ -10,12 +10,12 @@ namespace Whatchly.Series
     public class Serie : AggregateRoot<int> //Clave de la serie ID de tipo entero 
     {
         public string Title { get; set; }
-        public string Genero { get; set; }
-        public string Equipo { get; set; }
-        public string Duracion { get; set; }
-        public  DateOnly FechaLanzamiento { get; set; }
-        public string FotoPortada { get; set; }
-        public string PaisOrigen { get; set; }
-        public string Calificacion { get; set; }
+        public string Gender { get; set; }
+        public string Team { get; set; }
+        public string Duration { get; set; }
+        public  DateTime ReleaseDate { get; set; }
+        public string Photo { get; set; }
+        public string Country { get; set; }
+        public string Rating { get; set; }
     }
 }
