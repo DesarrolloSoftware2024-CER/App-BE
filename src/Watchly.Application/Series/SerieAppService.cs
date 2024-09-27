@@ -18,9 +18,9 @@ namespace Watchly.Series
             _seriesService = seriesService;
         }
 
-        public async Task<ICollection<SerieDTO>> SearchAsync(string title)
+        public async Task<ICollection<SerieDTO>> SearchAsync(string title, string gender)
         {
-           return await _seriesService.GetSeriesAsync(title);
+           return await _seriesService.GetSeriesAsync(title, gender);
         }
     }
 }

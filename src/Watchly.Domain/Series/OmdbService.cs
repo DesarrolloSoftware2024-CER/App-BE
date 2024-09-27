@@ -1,24 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Watchly.Series
 {
-    public class OmdbService: ISeriesApiService
+    public class OmdbService : ISeriesApiService
     {
-        public async Task<SerieDTO[]> GetSeriesAsync(string title)
-        { 
-        SerieDTO[] series = new SerieDTO[]
+        private static readonly string apiKey = "1504665a"; 
+        private static readonly string baseUrl = "http://www.omdbapi.com/";
+
+        public async Task<ICollection<SerieDTO>> GetSeriesAsync(string title, string gender)
         {
-            new SerieDTO
+            using HttpClient client = new HttpClient();
+
+            List<SerieDTO> series = new List<SerieDTO>();
+
+            string url = $"{baseUrl}?s={title}&apikey={apiKey}&type=series";
+
+            try
             {
-                Title="Breaking Bad"
+                // Hacer la solicitud HTTP y obtener la respuesta como string
+                var response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                // Deserializar la respuesta JSON a un objeto SearchResponse
+                var searchResponse = JsonConvert.DeserializeObject<SearchResponse>(jsonResponse);
+
+                // Retornar la lista de series si existen
+                var seriesOmdb = searchResponse?.Search ?? new List<SerieOmdb>();
+
+                foreach (var serieOmdb in seriesOmdb)
+                {
+                    series.Add(new SerieDTO { Title = serieOmdb.Title });
+                }
+
+                return series;
             }
-        };
-            return await Task.FromResult(series);
+            catch (HttpRequestException e)
+            {
+                throw new Exception("Se ha producido un error en la búsqueda de la serie", e);
+            }
+        }
+
+        private class SearchResponse
+        {
+            [JsonProperty("Search")]
+            public List<SerieOmdb> Search { get; set; }
+        }
+        private class SerieOmdb
+        {
+            public string Title { get; set; }
+            public string Year { get; set; }
+            public string Director { get; set; }
+            public string Actors { get; set; }
+            public string Plot { get; set; }
         }
     }
 }
