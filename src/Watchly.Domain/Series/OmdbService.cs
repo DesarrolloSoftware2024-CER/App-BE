@@ -49,6 +49,11 @@ namespace Watchly.Series
                 throw new Exception("Se ha producido un error en la búsqueda de la serie", e);
             }
         }
+        //Agregado para solucionar errores
+        Task<SerieDTO[]> ISeriesApiService.GetSeriesAsync(string title, string gender)
+        {
+            throw new NotImplementedException();
+        }
 
         private class SearchResponse
         {
@@ -58,10 +63,9 @@ namespace Watchly.Series
         private class SerieOmdb
         {
             public string Title { get; set; }
-            public string Year { get; set; }
+            public string ReleaseDate { get; set; }
             public string Director { get; set; }
             public string Actors { get; set; }
-            public string Plot { get; set; }
         }
     }
 }
