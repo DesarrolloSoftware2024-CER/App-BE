@@ -4,9 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Watchly.Series;
+using Volo.Abp.DependencyInjection;
+
+
 
 namespace Watchly.Series
 {
@@ -15,7 +19,7 @@ namespace Watchly.Series
         private static readonly string apiKey = "1504665a"; 
         private static readonly string baseUrl = "http://www.omdbapi.com/";
 
-        public async Task<ICollection<SerieDTO>> GetSeriesAsync(string title, string gender)
+        public async Task<ICollection<SerieDTO>> GetSeriesAsync(string title)
         {
             using HttpClient client = new HttpClient();
 
@@ -30,6 +34,10 @@ namespace Watchly.Series
                 response.EnsureSuccessStatusCode();
 
                 string jsonResponse = await response.Content.ReadAsStringAsync();
+                // Imprimir la respuesta JSON para depurar
+                Console.WriteLine(jsonResponse); // Agrega esta línea (para ver/verificar datos q  de la api por consola)
+
+
 
                 // Deserializar la respuesta JSON a un objeto SearchResponse
                 var searchResponse = JsonConvert.DeserializeObject<SearchResponse>(jsonResponse);
@@ -50,10 +58,10 @@ namespace Watchly.Series
             }
         }
         //Agregado para solucionar errores
-        Task<SerieDTO[]> ISeriesApiService.GetSeriesAsync(string title, string gender)
-        {
-            throw new NotImplementedException();
-        }
+        Task<ICollection<SerieDTO>> ISeriesApiService.GetSeriesAsync(string title)
+       {
+          throw new NotImplementedException();
+       }
 
         private class SearchResponse
         {
@@ -62,10 +70,13 @@ namespace Watchly.Series
         }
         private class SerieOmdb
         {
+            [JsonProperty("Title")]
             public string Title { get; set; }
-            public string ReleaseDate { get; set; }
-            public string Director { get; set; }
-            public string Actors { get; set; }
+
+            [JsonProperty("Released")]
+            public DateTime  ReleaseDate { get; set; }
+          //  public string Director { get; set; }
+         //   public string Actors { get; set; }
         }
     }
 }
