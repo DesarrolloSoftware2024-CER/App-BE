@@ -10,6 +10,7 @@ namespace Watchly.Series
 {
     public interface ISerieAppService: ICrudAppService<SerieDTO,int,PagedAndSortedResultRequestDto, CreateUpdateSerieDto>
     {
-
+        //  Task<ICollection<SerieDTO>> SearchAsync(string title);
+        Task<ICollection<SerieDTO>> SearchAsync(string title);
     }
 }

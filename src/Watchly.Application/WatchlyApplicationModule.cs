@@ -6,6 +6,8 @@ using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Modularity;
 using Volo.Abp.TenantManagement;
+using Microsoft.Extensions.DependencyInjection;
+using Watchly.Series;
 
 namespace Watchly;
 
@@ -27,5 +29,6 @@ public class WatchlyApplicationModule : AbpModule
         {
             options.AddMaps<WatchlyApplicationModule>();
         });
+        context.Services.AddTransient<ISeriesApiService, OmdbService>();
     }
 }

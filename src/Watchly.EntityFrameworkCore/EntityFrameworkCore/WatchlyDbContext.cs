@@ -77,13 +77,14 @@ public class WatchlyDbContext :
               WatchlyConsts.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(x => x.Title).IsRequired().HasMaxLength(128);
-            b.Property(x => x.Genero).IsRequired().HasMaxLength(128);
-            b.Property(x => x.Equipo).IsRequired().HasMaxLength(128);
-            b.Property(x => x.Duracion).IsRequired().HasMaxLength(128);
-            b.Property(x => x.FechaLanzamiento).IsRequired().HasMaxLength(128);
-            b.Property(x => x.FotoPortada).IsRequired().HasMaxLength(128); 
-            b.Property(x => x.PaisOrigen).IsRequired().HasMaxLength(128);
-            b.Property(x => x.Calificacion).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Gender).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Actors).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Duration).IsRequired().HasMaxLength(128);
+            b.Property(x => x.ReleaseDate).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Poster).IsRequired().HasMaxLength(128); 
+            b.Property(x => x.Country).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Director).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Ratings).IsRequired().HasMaxLength(128);
 
         });
 

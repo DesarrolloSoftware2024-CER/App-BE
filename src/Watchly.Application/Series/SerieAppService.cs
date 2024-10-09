@@ -10,10 +10,17 @@ using Whatchly.Series;
 
 namespace Watchly.Series
 {
-    public class SerieAppService : CrudAppService<Serie, SerieDTO, int, PagedAndSortedResultRequestDto, CreateUpdateSerieDto, CreateUpdateSerieDto>, ISerieAppService
+    public class SerieAppService : CrudAppService<Serie, SerieDTO, int, PagedAndSortedResultRequestDto, CreateUpdateSerieDto, CreateUpdateSerieDto>,  ISerieAppService
     {
-        public SerieAppService(IRepository<Serie, int> repository) : base(repository)
+        private readonly ISeriesApiService _seriesService;
+        public SerieAppService(IRepository<Serie, int> repository, ISeriesApiService seriesService) : base(repository)
         {
+            _seriesService = seriesService;
+        }
+
+        public async Task<ICollection<SerieDTO>> SearchAsync(string title)
+        {
+           return await _seriesService.GetSeriesAsync(title);
         }
     }
 }
