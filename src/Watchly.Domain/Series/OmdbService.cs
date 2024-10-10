@@ -35,9 +35,7 @@ namespace Watchly.Series
 
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 // Imprimir la respuesta JSON para depurar
-                Console.WriteLine(jsonResponse); // Agrega esta línea (para ver/verificar datos q  de la api por consola)
-
-
+            
 
                 // Deserializar la respuesta JSON a un objeto SearchResponse
                 var searchResponse = JsonConvert.DeserializeObject<SearchResponse>(jsonResponse);
