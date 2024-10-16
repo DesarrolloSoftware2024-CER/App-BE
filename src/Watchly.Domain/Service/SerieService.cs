@@ -10,6 +10,9 @@ using Whatchly.Series;
 using Watchly.WatchLists;
 using Watchly.Workers;
 using Volo.Abp.Domain.Services;
+using Watchly.Series;
+using Polly;
+using System.Drawing;
 
 namespace Watchly.Service
 {
@@ -18,16 +21,19 @@ namespace Watchly.Service
         private readonly IRepository<Serie, int> _serieRepository;
         private readonly IRepository<WatchList, int> _watchListRepository;
         private readonly IRepository<Notification, int> _notificacionRepository;
+        private readonly IRepository<Season, int> _seasonRepository;
 
         public SerieService(
-        IRepository<Serie, int> serieRepository,
+            IRepository<Serie, int> serieRepository,
             IRepository<WatchList, int> watchListRepository,
-            IRepository<Notification, int> notificacionRepository)
+            IRepository<Notification, int> notificacionRepository,
+            IRepository<Season, int> seasonRepository)
         {
             _serieRepository = serieRepository;
             _watchListRepository = watchListRepository;
             _notificacionRepository = notificacionRepository;
-        }
+            _seasonRepository = seasonRepository;
+            }
 
         public async Task VerificarCambiosSeriesAsync(int ClientId)
         {
@@ -49,7 +55,7 @@ namespace Watchly.Service
 
                 // Lógica para comparar estados y episodios
                // var estadoPrevio = ObtenerEstadoPrevio(serieId); // Obtener estado anterior de la serie
-                var episodiosPrevios = ObtenerEpisodiosPrevios(serieId); // Obtener episodios previos
+                var episodiosPrevios =ObtenerEpisodiosPreviosAsync(serieId); // Obtener episodios previos
                 var episodiosApi = ObtenerEpisodiosApi(title);
 
                 /* Comparar si el estado cambió
@@ -59,7 +65,7 @@ namespace Watchly.Service
                 }
                 */
                 // Comparar si se han lanzado nuevos episodios
-                if (episodiosPrevios < episodiosApi)
+                if (await episodiosPrevios < episodiosApi)
                 {
                     // actualizarSerie(serieId);
 
@@ -84,11 +90,19 @@ namespace Watchly.Service
         }
 
 
+        private async Task<int> ObtenerEpisodiosPreviosAsync(int serieId)
+        {  // Obtener todas las temporadas de la serie
+            var temporadas = await _seasonRepository.GetListAsync(s => s.SerieID == serieId);
 
-        private int ObtenerEpisodiosPrevios(int serieId)
-        {
-            // Implementar lógica para obtener la cantidad de episodios previos desde la base de datos
-            // Placeholder
+            int totalEpisodios = 0;
+
+            // Iterar sobre cada temporada y contar los episodios
+            foreach (var temporada in temporadas)
+            {
+                totalEpisodios += temporada.Episodes.Count() ;  // Sumar al total
+            }
+
+            return totalEpisodios;
         }
 
         private int ObtenerEpisodiosApi(string title)
