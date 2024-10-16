@@ -13,7 +13,7 @@ using Watchly.EntityFrameworkCore;
 namespace Watchly.Migrations
 {
     [DbContext(typeof(WatchlyDbContext))]
-    [Migration("20240911230734_add-serie-entity")]
+    [Migration("20241010034016_add-serie-entity")]
     partial class addserieentity
     {
         /// <inheritdoc />
@@ -1908,7 +1908,7 @@ namespace Watchly.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Calificacion")
+                    b.Property<string>("Actors")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -1920,12 +1920,17 @@ namespace Watchly.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
-                    b.Property<string>("Duracion")
+                    b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("Equipo")
+                    b.Property<string>("Director")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Duration")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -1935,24 +1940,24 @@ namespace Watchly.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
 
-                    b.Property<DateOnly>("FechaLanzamiento")
-                        .HasMaxLength(128)
-                        .HasColumnType("date");
-
-                    b.Property<string>("FotoPortada")
+                    b.Property<string>("Gender")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("Genero")
+                    b.Property<string>("Poster")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("PaisOrigen")
+                    b.Property<string>("Ratings")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasMaxLength(128)
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
