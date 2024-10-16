@@ -15,6 +15,7 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Whatchly.Series;
+using Watchly.Series;
 
 namespace Watchly.EntityFrameworkCore;
 
@@ -30,6 +31,12 @@ public class WatchlyDbContext :
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<Serie> Series { get; set; }
+
+    //Temporada
+    public DbSet<Season> Seasons { get; set; }
+
+    //Episodio
+    public DbSet<Episode> Episodes { get; set; }
 
     #region Entities from the modules
 
@@ -76,17 +83,66 @@ public class WatchlyDbContext :
             b.ToTable(WatchlyConsts.DbTablePrefix + "Series",
               WatchlyConsts.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
-            b.Property(x => x.Title).IsRequired().HasMaxLength(128);
             b.Property(x => x.Gender).IsRequired().HasMaxLength(128);
             b.Property(x => x.Actors).IsRequired().HasMaxLength(128);
             b.Property(x => x.Duration).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Synopsis).IsRequired().HasMaxLength(128);
             b.Property(x => x.ReleaseDate).IsRequired().HasMaxLength(128);
-            b.Property(x => x.Poster).IsRequired().HasMaxLength(128); 
+            b.Property(x => x.Poster).IsRequired().HasMaxLength(128);
             b.Property(x => x.Country).IsRequired().HasMaxLength(128);
             b.Property(x => x.Director).IsRequired().HasMaxLength(128);
             b.Property(x => x.Ratings).IsRequired().HasMaxLength(128);
+            b.Property(x => x.TotalSeasons).IsRequired(); // No usa HasMaxLength xq es un int
+            // Relación con Temporadas
+            b.HasMany(s => s.Seasons)
+             .WithOne(t => t.Serie)
+             .HasForeignKey(t => t.SerieID)
+             .OnDelete(DeleteBehavior.Cascade)
+             .IsRequired();
+            });
+        //Temporada
+        builder.Entity<Season>(b =>
+        {
+            b.ToTable(WatchlyConsts.DbTablePrefix + "Seasons",
+               WatchlyConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property(x => x.Title).IsRequired().HasMaxLength(128);
+            b.Property(x => x.ReleaseDate).IsRequired().HasMaxLength(128);
+            b.Property(x => x.NumberSeason).IsRequired();
 
+            // Relacion con Serie
+            b.HasOne(t => t.Serie)
+             .WithMany(s => s.Seasons)
+             .HasForeignKey(t => t.SerieID)
+             .OnDelete(DeleteBehavior.Cascade)
+             .IsRequired();
+            // Relacion con Episodios
+            b.HasMany(t => t.Episodes)
+             .WithOne(e => e.Season)
+             .HasForeignKey(e => e.SeasonID)
+             .OnDelete(DeleteBehavior.Cascade)
+             .IsRequired();
         });
+
+        //Episodio
+        builder.Entity<Episode>(b =>
+        {
+            b.ToTable(WatchlyConsts.DbTablePrefix + "Episodes",
+                WatchlyConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property(x => x.Title).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Director).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Writer).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Synopsis).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Duration).IsRequired().HasMaxLength(128);
+            b.Property(x => x.ReleaseDate).IsRequired();
+            b.Property(x => x.NumberEpisode).IsRequired();
+            b.HasOne(e => e.Season)
+             .WithMany(t => t.Episodes)
+             .HasForeignKey(e => e.SeasonID)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
 
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
