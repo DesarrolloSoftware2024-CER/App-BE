@@ -45,7 +45,11 @@ namespace Watchly.Series
 
                 foreach (var serieOmdb in seriesOmdb)
                 {
-                    series.Add(new SerieDTO { Title = serieOmdb.Title });
+                    series.Add(new SerieDTO { Title = serieOmdb.Title,
+                        ReleaseDate = serieOmdb.ReleaseDate,
+                        Actors = serieOmdb.Actors,
+                        Gender = serieOmdb.Gender
+                    });
                 }
 
                 return series;
@@ -55,11 +59,7 @@ namespace Watchly.Series
                 throw new Exception("Se ha producido un error en la búsqueda de la serie", e);
             }
         }
-        //Agregado para solucionar errores
-        Task<ICollection<SerieDTO>> ISeriesApiService.GetSeriesAsync(string title)
-       {
-          throw new NotImplementedException();
-       }
+    
 
         private class SearchResponse
         {
@@ -73,8 +73,16 @@ namespace Watchly.Series
 
             [JsonProperty("Released")]
             public DateTime  ReleaseDate { get; set; }
-          //  public string Director { get; set; }
-         //   public string Actors { get; set; }
-        }
+
+            [JsonProperty("Actors")]
+            public string Actors { get; set; }
+
+            [JsonProperty("Gender")]
+            public string Gender { get; set; }
+
+
+        //  public string Director { get; set; }
+        //   public string Actors { get; set; }
+    }
     }
 }

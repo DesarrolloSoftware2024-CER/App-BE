@@ -13,6 +13,8 @@ using Volo.Abp.Domain.Services;
 using Watchly.Series;
 using Polly;
 using System.Drawing;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
 
 namespace Watchly.Service
 {
@@ -55,8 +57,8 @@ namespace Watchly.Service
 
                 // Lógica para comparar estados y episodios
                // var estadoPrevio = ObtenerEstadoPrevio(serieId); // Obtener estado anterior de la serie
-                var episodiosPrevios =ObtenerEpisodiosPreviosAsync(serieId); // Obtener episodios previos
-                var episodiosApi = ObtenerEpisodiosApi(title);
+                var episodiosPrevios = await ObtenerEpisodiosPreviosAsync(serieId); // Obtener cant episodios previos
+                var episodiosApi = await ObtenerEpisodiosApiAsync(title);  //Obtener cant episodios en API
 
                 /* Comparar si el estado cambió
                 if (estadoPrevio != serie.State)
@@ -65,7 +67,7 @@ namespace Watchly.Service
                 }
                 */
                 // Comparar si se han lanzado nuevos episodios
-                if (await episodiosPrevios < episodiosApi)
+                if (episodiosPrevios < episodiosApi)
                 {
                     // actualizarSerie(serieId);
 
@@ -105,12 +107,38 @@ namespace Watchly.Service
             return totalEpisodios;
         }
 
-        private int ObtenerEpisodiosApi(string title)
+        private static readonly string apiKey = "1504665a";
+        private static readonly string baseUrl = "http://www.omdbapi.com/";
+        private static async Task<int> ObtenerEpisodiosApiAsync(string title)
         {
-            //Implementacion
+                int totalEpisodios = 0;
+                int season = 1;
+                bool moreSeasons = true;
+              
+                using (HttpClient client = new HttpClient())
+                {
+                    while (moreSeasons)
+                    {
+                        // Hacer solicitud para obtener la información de la temporada
+                        var response = await client.GetStringAsync($"{baseUrl}?type=series&t={title}&Season={season}&apikey={apiKey}");
+
+                        JObject seasonData = JObject.Parse(response);
+
+                        if (seasonData["Episodes"] != null)
+                        {
+                            totalEpisodios += seasonData["Episodes"].Count();
+                            season++;
+                        }
+                        else
+                        {
+                            moreSeasons = false; // Si no hay más temporadas, salimos del bucle
+                        }
+                    }
+                }
+            return totalEpisodios;
         }
 
-       
-    }
+
+     }
 
 }
